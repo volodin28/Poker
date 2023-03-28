@@ -1,32 +1,34 @@
 from random import shuffle
 
-from const import SUITS, RANKS, POINTS
+from const import SUITS, RANKS, VALUE
 
 
 class Card:
 
-    def __init__(self, suit, rank, points):
+    def __init__(self, suit, rank, value):
         self.suit = suit
         self.rank = rank
-        self.points = points
+        self.value = value
 
     def __str__(self):
-        message = f'{self.rank} {self.suit}\nPoints: {self.points}'
+        message = f'{self.rank} of {self.suit}'  # \nValue: {self.value}
         return message
 
 
 class Deck:
 
     def __init__(self):
-        self.deck = self.create_deck()
-        shuffle(self.deck)
-
-    def create_deck(self):
-        deck = []
+        self.cards = []
         for suit in SUITS:
             for rank in RANKS:
-                points = POINTS.get(rank)
-                c = Card(suit=suit, rank=rank, points=points)
-                deck.append(c)
-        return deck
+                value = VALUE.get(rank)
+                self.cards.append(Card(suit=suit, rank=rank, value=value))
+
+    def shuffle(self):
+        shuffle(self.cards)
+
+    def deal_card(self):
+        return self.cards.pop(0)
+
+
 

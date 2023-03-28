@@ -1,6 +1,6 @@
-from Deck import Deck
+from Game import Game
 
 if __name__ == '__main__':
-    d = Deck()
-    print(d.deck[0])
-    print(d.deck[1])
+    round_1 = Game()
+    round_1.make_players()
+    round_1.play_round()
