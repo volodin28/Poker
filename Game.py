@@ -29,9 +29,30 @@ class Game:
         self.trump_suit = self.trump_card.suit
 
     def place_a_bet(self):
+        num_cards = ROUNDS[0]  #####
+        sum_bets = 0
         for player in self.players:
-            bet = int(input(f"{player.name}, what is your bet for this round"))
-            player.place_a_bet(bet)
+            while True:
+                try:
+                    bet = int(input(f"{player.name}, Enter your bet 0 to {num_cards}: "))
+                    player.place_a_bet(bet)
+                except ValueError:
+                    print(f"{player.name},Enter valid number")
+                    continue
+                if self.players.index(player) != len(self.players) - 1:
+                    if 0 <= bet <= num_cards:
+                        print(f"{player.name}'s bet is: {bet}")
+                        sum_bets += bet
+                        break
+                    else:
+                        print(f'The bet must be in the range 0 to {num_cards}:')
+                else:
+                    if 0 <= bet <= num_cards and bet != (num_cards - sum_bets):
+                        print(f"{player.name}'s bet is: {bet}")
+                        sum_bets += bet
+                        break
+                    else:
+                        print(f'The bet must be in the range 0 to {num_cards} and not equal to {num_cards - sum_bets}')
 
     def play_round(self):
         num_cards = ROUNDS[0]       #####
@@ -41,5 +62,5 @@ class Game:
             player.show_hand()
         print('The trump is', self.trump_card)
         self.place_a_bet()
-        for player in self.players:
-            player.show_bet()
+        # for player in self.players:
+        #     player.show_bet()
