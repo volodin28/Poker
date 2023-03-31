@@ -6,11 +6,14 @@ class Player:
         self.name = name
         self.bet = 0
 
+    def __repr__(self):
+        return self.name
+
     def add_card(self, card):
         self.hand.append(card)
 
-    def place_a_bet(self, bet):
-        self.bet = bet
+    # def place_a_bet(self, bet):
+    #     self.bet = bet
 
     def play_card(self, card):
         self.hand.remove(card)

@@ -12,7 +12,7 @@ VALUE = {
     'Ace': 14,
 }
 
-ROUNDS = [2, 3]
+ROUNDS = {1: 1, 2: 2, 3: 3}
 
 # ROUNDS = {
 #     'TEST': [1],
