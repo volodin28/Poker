@@ -9,8 +9,14 @@ class Player:
     def __repr__(self):
         return self.name
 
+    def __len__(self):
+        return len(self.hand)
+
     def add_card(self, card):
         self.hand.append(card)
+
+    def clear_hand(self):
+        self.hand.clear()
 
     # def place_a_bet(self, bet):
     #     self.bet = bet
@@ -19,9 +25,9 @@ class Player:
         self.hand.remove(card)
 
     def show_hand(self):
-        print(self.name + "'s hand:")
-        for card in self.hand:
-            print(card)
+        print(f"{self.name}'s hand: {self.hand}")
+        # for card in self.hand:
+        #     print(card)
 
     def show_bet(self):
         print(f"{self.name}'s bet: {self.bet}")

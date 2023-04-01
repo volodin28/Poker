@@ -14,6 +14,9 @@ class Card:
         message = f'{self.rank} of {self.suit}'  # \nValue: {self.value}
         return message
 
+    def __repr__(self):
+        return f'{self.rank} of {self.suit}'
+
 
 class Deck:
 
@@ -23,12 +26,13 @@ class Deck:
             for rank in RANKS:
                 value = VALUE.get(rank)
                 self.cards.append(Card(suit=suit, rank=rank, value=value))
-
-    def shuffle(self):
         shuffle(self.cards)
+
+    def __len__(self):
+        return len(self.cards)
+
+    # def shuffle(self):
+    #     shuffle(self.cards)
 
     def deal_card(self):
         return self.cards.pop(0)
-
-
-
