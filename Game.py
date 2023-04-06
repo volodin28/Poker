@@ -90,6 +90,7 @@ class Game:
                     except ValueError:
                         print(f"{player.name},Enter valid number")
             print(f"The winner is {table[max(table.keys())]}")
+            self.calculate_trick(table[max(table.keys())])
             self.rotate_players_order(table[max(table.keys())])
         self.rotate_players_order(first_player)  # return players to the order before round
 
@@ -109,28 +110,33 @@ class Game:
         else:
             return num_round % 4
 
+    @staticmethod
+    def calculate_trick(player):
+        player.tricks += 1
+
     def play_round(self):
         for num_round in ROUNDS.keys():
-            self.set_dealer(num_round)  # set the dealer for round
+            self.set_dealer(num_round)                                  # set the dealer for round
             if num_round > 1:
-                self.rotate_players_order(self.players[1])  # set up correct player order
+                self.rotate_players_order(self.players[1])              # set up correct player order
             print(f"""_______________________________
 ROUND {num_round}.
-Players order: {self.players}
 Dealer is {self.players[0]}
 _______________________________""")
-            self.deck = Deck()  # make a deck and shuffle cards
-            self.set_trump()    # set the trump
-            print('The trump is', self.trump_card)  # show trump
+            self.deck = Deck()                                          # make a deck and shuffle cards
+            self.set_trump()                                            # set the trump
+            print('The trump is', self.trump_card)                      # show trump
             self.set_trump_values()
-            num_cards = ROUNDS[num_round]  # estimate number of cards to deal this round
-            self.deal_cards(num_cards)  # deal cards to players
-            for player in self.players:   # show cards of players
+            num_cards = ROUNDS[num_round]                               # estimate number of cards to deal this round
+            self.deal_cards(num_cards)                                  # deal cards to players
+            for player in self.players:                                 # show cards of players
                 player.show_hand()
-            self.rotate_players_order_forward()     # rotate players order for the betting stage
-            self.place_a_bet(num_cards)   # players make bets for the round
-            self.rotate_players_order_backwards()  # rotate players order backwards after batting stage
-            self.play_circle(num_cards)  # players playing cards
+            self.rotate_players_order_forward()                         # rotate players order for the betting stage
+            self.place_a_bet(num_cards)                                 # players make bets for the round
+            self.rotate_players_order_backwards()                       # rotate players order after batting stage
+            self.play_circle(num_cards)                                 # players playing cards
             for player in self.players:
-                player.clear_hand()
-
+                player.calculate_points()                               # calculate points of the round
+                player.show_points()
+                player.clear_hand()                                     # clear players hand after round
+                player.clear_tricks()                                   # clear players tricks after round
