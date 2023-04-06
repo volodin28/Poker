@@ -2,7 +2,7 @@ SUITS = ['hearts', 'clubs', 'spades', 'diamonds']
 RANKS = ['6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 VALUE = {
     '6': 6,
-    '7': 6,
+    '7': 7,
     '8': 8,
     '9': 9,
     '10': 10,
@@ -12,7 +12,8 @@ VALUE = {
     'Ace': 14,
 }
 
-ROUNDS = {1: 1, 2: 2, 3: 3}
+ROUNDS = {1: 2, 2: 2, 3: 3}
+
 
 # ROUNDS = {
 #     'TEST': [1],

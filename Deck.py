@@ -11,11 +11,14 @@ class Card:
         self.value = value
 
     def __str__(self):
-        message = f'{self.rank} of {self.suit}'  # \nValue: {self.value}
+        message = f'{self.rank} of {self.suit}'  # Value: {self.value}
         return message
 
     def __repr__(self):
-        return f'{self.rank} of {self.suit}'
+        return f'{self.rank} of {self.suit}'  # Value: {self.value}
+
+    def __lt__(self, other):
+        return self.value < other.value
 
 
 class Deck:
