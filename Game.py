@@ -32,13 +32,17 @@ class Game:
         if isinstance(ROUNDS[num_round], str):
             return int(len(self.deck) / len(self.players))
 
-    def set_trump(self, num_cards, dealer):
-        if num_cards < len(self.deck) / len(self.players):
-            self.trump_card = self.deck.deal_card()
-        else:
-            self.trump_card = choice(dealer.hand)
-        self.trump_suit = self.trump_card.suit
-        print('The trump is', self.trump_card)                          # show trump
+    def set_trump(self, num_round, num_cards, dealer):
+        if ROUNDS[num_round] != 'NoTrump':
+            if num_cards < len(self.deck) / len(self.players):
+                self.trump_card = self.deck.deal_card()
+            else:
+                self.trump_card = choice(dealer.hand)
+            self.trump_suit = self.trump_card.suit
+
+    def show_trump(self, num_round):
+        if ROUNDS[num_round] != 'NoTrump':
+            print('The trump is', self.trump_card)
 
     def set_trump_values(self, player):
         for card in player.hand:
@@ -138,8 +142,8 @@ _______________________________""")
         self.deck = Deck()                                          # make a deck and shuffle cards
         num_cards = self.set_num_cards(num_round)                   # estimate number of cards to deal this round
         self.deal_cards(num_cards)                                  # deal cards to players
-        self.set_trump(num_cards, self.players[0])                  # set the trump
-        # self.set_trump_values()
+        self.set_trump(num_round, num_cards, self.players[0])       # set the trump (don't set for 'NoTrump' round)
+        self.show_trump(num_round)                                  # show trump (not show in 'NoTrump' round
         for player in self.players:
             self.set_trump_values(player)                           # add values to cards with trump suit
             player.show_hand()                                      # show cards of players

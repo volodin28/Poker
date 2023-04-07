@@ -32,9 +32,6 @@ class Player:
         elif self.tricks < self.bet:
             self.points -= (self.bet - self.tricks) * 10
 
-    # def place_a_bet(self, bet):
-    #     self.bet = bet
-
     def play_card(self, card_index):
         return self.hand.pop(card_index)
 
