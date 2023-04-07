@@ -2,6 +2,8 @@ from Deck import Deck
 from const import ROUNDS
 from Player import Player
 
+from random import choice
+
 
 class Game:
 
@@ -24,12 +26,22 @@ class Game:
                 card = self.deck.deal_card()
                 player.add_card(card)
 
-    def set_trump(self):
-        self.trump_card = self.deck.deal_card()
-        self.trump_suit = self.trump_card.suit
+    def set_num_cards(self, num_round):
+        if isinstance(ROUNDS[num_round], int):
+            return ROUNDS[num_round]
+        if isinstance(ROUNDS[num_round], str):
+            return int(len(self.deck) / len(self.players))
 
-    def set_trump_values(self):
-        for card in self.deck.cards:
+    def set_trump(self, num_cards, dealer):
+        if num_cards < len(self.deck) / len(self.players):
+            self.trump_card = self.deck.deal_card()
+        else:
+            self.trump_card = choice(dealer.hand)
+        self.trump_suit = self.trump_card.suit
+        print('The trump is', self.trump_card)                          # show trump
+
+    def set_trump_values(self, player):
+        for card in player.hand:
             if card.suit == self.trump_suit:
                 card.value += 10
 
@@ -114,29 +126,29 @@ class Game:
     def calculate_trick(player):
         player.tricks += 1
 
-    def play_round(self):
-        for num_round in ROUNDS.keys():
-            self.set_dealer(num_round)                                  # set the dealer for round
-            if num_round > 1:
-                self.rotate_players_order(self.players[1])              # set up correct player order
-            print(f"""_______________________________
+    def play_round(self, num_round):
+        # for num_round in ROUNDS.keys():
+        self.set_dealer(num_round)                                  # set the dealer for round
+        if num_round > 1:
+            self.rotate_players_order(self.players[1])              # set up correct player order
+        print(f"""_______________________________
 ROUND {num_round}.
 Dealer is {self.players[0]}
 _______________________________""")
-            self.deck = Deck()                                          # make a deck and shuffle cards
-            self.set_trump()                                            # set the trump
-            print('The trump is', self.trump_card)                      # show trump
-            self.set_trump_values()
-            num_cards = ROUNDS[num_round]                               # estimate number of cards to deal this round
-            self.deal_cards(num_cards)                                  # deal cards to players
-            for player in self.players:                                 # show cards of players
-                player.show_hand()
-            self.rotate_players_order_forward()                         # rotate players order for the betting stage
-            self.place_a_bet(num_cards)                                 # players make bets for the round
-            self.rotate_players_order_backwards()                       # rotate players order after batting stage
-            self.play_circle(num_cards)                                 # players playing cards
-            for player in self.players:
-                player.calculate_points()                               # calculate points of the round
-                player.show_points()
-                player.clear_hand()                                     # clear players hand after round
-                player.clear_tricks()                                   # clear players tricks after round
+        self.deck = Deck()                                          # make a deck and shuffle cards
+        num_cards = self.set_num_cards(num_round)                   # estimate number of cards to deal this round
+        self.deal_cards(num_cards)                                  # deal cards to players
+        self.set_trump(num_cards, self.players[0])                  # set the trump
+        # self.set_trump_values()
+        for player in self.players:
+            self.set_trump_values(player)                           # add values to cards with trump suit
+            player.show_hand()                                      # show cards of players
+        self.rotate_players_order_forward()                         # rotate players order for the betting stage
+        self.place_a_bet(num_cards)                                 # players make bets for the round
+        self.rotate_players_order_backwards()                       # rotate players order after batting stage
+        self.play_circle(num_cards)                                 # players playing cards
+        for player in self.players:
+            player.calculate_points()                               # calculate players points of the round
+            player.show_points()                                    # show players points
+            player.clear_hand()                                     # clear players hand after round
+            player.clear_tricks()                                   # clear players tricks after round
