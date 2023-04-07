@@ -1,3 +1,5 @@
+from const import ROUNDS
+
 class Player:
 
     def __init__(self, name):
@@ -19,18 +21,21 @@ class Player:
     def clear_hand(self):                    # clear hand after round
         self.hand.clear()
 
-    def clear_tricks(self):                  # clear tricks after round
+    def clear_tricks(self):                                 # clear tricks after round
         self.tricks = 0
 
-    def calculate_points(self):
+    def calculate_points(self, num_round):
+        mult = 1                                            # multiplier (x2 for 'Dark' round)
+        if ROUNDS[num_round] == 'Dark':
+            mult = 2
         if self.tricks == self.bet == 0:
-            self.points += 5
+            self.points += 5 * mult
         elif self.tricks == self.bet:
-            self.points += self.bet * 10
+            self.points += self.bet * 10 * mult
         elif self.tricks > self.bet:
-            self.points += self.tricks
+            self.points += self.tricks * mult
         elif self.tricks < self.bet:
-            self.points -= (self.bet - self.tricks) * 10
+            self.points -= (self.bet - self.tricks) * 10 * mult
 
     def play_card(self, card_index):
         return self.hand.pop(card_index)

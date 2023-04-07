@@ -27,6 +27,8 @@ class Game:
                 player.add_card(card)
 
     def set_num_cards(self, num_round):
+        # if ROUNDS[num_round] == 'Dark':                               # testing
+        #     return 3
         if isinstance(ROUNDS[num_round], int):
             return ROUNDS[num_round]
         if isinstance(ROUNDS[num_round], str):
@@ -131,7 +133,6 @@ class Game:
         player.tricks += 1
 
     def play_round(self, num_round):
-        # for num_round in ROUNDS.keys():
         self.set_dealer(num_round)                                  # set the dealer for round
         if num_round > 1:
             self.rotate_players_order(self.players[1])              # set up correct player order
@@ -146,13 +147,17 @@ _______________________________""")
         self.show_trump(num_round)                                  # show trump (not show in 'NoTrump' round
         for player in self.players:
             self.set_trump_values(player)                           # add values to cards with trump suit
-            player.show_hand()                                      # show cards of players
+            if ROUNDS[num_round] != 'Dark':                         # logic for 'Dark' round
+                player.show_hand()                                  # show cards of players
         self.rotate_players_order_forward()                         # rotate players order for the betting stage
         self.place_a_bet(num_cards)                                 # players make bets for the round
         self.rotate_players_order_backwards()                       # rotate players order after batting stage
+        if ROUNDS[num_round] == 'Dark':                             # logic for 'Dark' round
+            for player in self.players:
+                player.show_hand()
         self.play_circle(num_cards)                                 # players playing cards
         for player in self.players:
-            player.calculate_points()                               # calculate players points of the round
+            player.calculate_points(num_round)                      # calculate players points of the round
             player.show_points()                                    # show players points
             player.clear_hand()                                     # clear players hand after round
             player.clear_tricks()                                   # clear players tricks after round
