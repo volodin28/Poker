@@ -9,7 +9,6 @@ class Game:
 
     def __init__(self):
         self.deck = Deck()
-        # self.deck.shuffle()
         self.players = []
         self.trump_card = ""
         self.trump_suit = ""

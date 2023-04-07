@@ -1,5 +1,6 @@
 from const import ROUNDS
 
+
 class Player:
 
     def __init__(self, name):
@@ -18,7 +19,7 @@ class Player:
     def add_card(self, card):
         self.hand.append(card)
 
-    def clear_hand(self):                    # clear hand after round
+    def clear_hand(self):                                   # clear hand after round
         self.hand.clear()
 
     def clear_tricks(self):                                 # clear tricks after round

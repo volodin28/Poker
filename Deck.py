@@ -34,6 +34,9 @@ class Deck:
     def __len__(self):
         return len(self.cards)
 
+    def __repr__(self):
+        return self.cards
+
     # def shuffle(self):
     #     shuffle(self.cards)
 
